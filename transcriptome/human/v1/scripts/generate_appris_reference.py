@@ -11,7 +11,7 @@ import statistics
 # we hope to organize our scripts and librareis better later.
 script_path = os.path.dirname( os.path.realpath(__file__) ) 
 #upper_path =  os.path.dirname(os.path.dirname(script_path))
-lib_path = os.path.join(script_path,"..","..",".." )
+lib_path = os.path.join(script_path,"..","..","..", "..")
 if not os.path.isdir(lib_path):
     print("Couldn't find the dir path {}. Exiting...".format(lib_path))
     exit(1)
