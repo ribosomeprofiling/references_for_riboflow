@@ -93,6 +93,9 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+.venv-ribo/
+v2.ribo
+v3.ribo
 
 # Spyder project settings
 .spyderproject
