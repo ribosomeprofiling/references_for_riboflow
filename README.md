@@ -23,10 +23,15 @@ Bowtie2 references and sequence files can be found in the subfolder
 
 **filter/organism/v[0-9]/**
 
-## Organsims
+## Organisms
 
 We provide reference and annotation for the following organisms. Depending on the demand, we may expand this list in the future.
 
-  * Human
+  * Human — versions `v1`, `v2`, `v3` (current default: `v3`)
   * Mouse
+
+## Comparison notebooks
+
+The v2-vs-v3 human-reference comparison (ribo-seq QC and CDS-occupancy concordance on GSM1606107 / GSM1606108) lives at
+[`transcriptome/human/v3/scripts/mapping_comparison_of_v2_and_v3.ipynb`](transcriptome/human/v3/scripts/mapping_comparison_of_v2_and_v3.ipynb).
 
