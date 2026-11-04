@@ -109,3 +109,13 @@ v3.ribo
 
 # mypy
 .mypy_cache/
+
+# Local-only inputs and outputs (not committed)
+filter/human/v3/comparison/
+filter/human/v3/scripts/download_sources.R
+transcriptome/human/v4/comparison/
+transcriptome/human/v4/riboflow_annot_and_ref/containment/
+transcriptome/human/v4/riboflow_annot_and_ref/appris_human_v4_sequence_groups.tsv
+transcriptome/human/v4/riboflow_annot_and_ref/appris_human_v4_discarded.fa.gz
+transcriptome/human/v4/raw/sequence/gencode.v50.pc_transcripts.fa.gz
+transcriptome/human/v4/raw/annotation/gencode.v50.annotation.gtf.gz

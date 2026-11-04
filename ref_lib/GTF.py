@@ -187,3 +187,59 @@ def get_gtf_contents(gtf_file):
                 
     result = find_transcript_lengths(gtf_contents)
     return result
+
+
+def get_gtf_contents_genome(gtf_file):
+    """
+    Like get_gtf_contents, but adds "chrom" (GTFEntry.seqname) to each transcript dict.
+
+    Returns a nested dict:
+        gene_id -> transcript_id -> {
+            "chrom": str,          # chromosome / scaffold name (e.g. "chr1")
+            "exons":  [(start, end), ...],   # 1-based, INCLUSIVE (GTF coords)
+            "CDS":    [(start, end, exon_idx), ...],
+            "strand": "+"/"-",
+            "start": int, "end": int,
+            "gene_type": str,
+            "length": int,
+        }
+
+    Coordinates are left in GTF convention (1-based, inclusive).  The caller is
+    responsible for converting to 0-based half-open when writing output tables
+    (apply start - 1 to every interval start; leave ends unchanged).
+    """
+    gtf_contents = dict()
+    with GTFfile(gtf_file) as gtf:
+        for k in gtf:
+            g_contents = k.attribute_dict["gene_id"].strip().split(".")
+
+            # Discard Y chromosome paralogs
+            if len(g_contents) >= 2 and "PAR_Y" in g_contents[1]:
+                continue
+
+            gene_id = g_contents[0]
+
+            if k.feature == "gene":
+                gtf_contents[gene_id] = dict()
+
+            if k.feature == "transcript":
+                thranscript_id = k.attribute_dict["transcript_id"].strip().split(".")[0]
+                gtf_contents[gene_id][thranscript_id] = {
+                    "chrom": k.seqname,
+                    "exons": list(), "CDS": list(), "strand": k.strand,
+                    "start": k.start, "end": k.end,
+                    "gene_type": k.attribute_dict["gene_type"],
+                }
+
+            if k.feature == "exon":
+                thranscript_id = k.attribute_dict["transcript_id"].strip().split(".")[0]
+                gtf_contents[gene_id][thranscript_id]["exons"].append((k.start, k.end))
+
+            if k.feature == "CDS":
+                thranscript_id = k.attribute_dict["transcript_id"].strip().split(".")[0]
+                gtf_contents[gene_id][thranscript_id]["CDS"].append(
+                    (k.start, k.end, int(k.attribute_dict["exon_number"]) - 1)
+                )
+
+    result = find_transcript_lengths(gtf_contents)
+    return result
